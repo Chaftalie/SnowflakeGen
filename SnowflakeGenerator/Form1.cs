@@ -68,6 +68,7 @@ namespace SnowflakeGenerator
         Particle particle;
         int seed;
         Random rnd;
+        int spread = 2;
 
         public Snowflake(float width, float radius)
         {
@@ -98,7 +99,23 @@ namespace SnowflakeGenerator
             while (!Particle_Finished())
             {
                 particle.X--;
-                particle.Y += rnd.Next(-2000, 2001) / 1000;
+                particle.Y += rnd.Next(spread * -1000, (spread * 1000) + 1) / 1000;
+            }
+        }
+
+        private void Stay_here_Particle()   //!!                    ^^
+        {
+            //Should stay in an triangle from (0|0), (width/2|0), (width/2|?) angle = 60°
+            float a = Distance(0, 0, width / 2, 0);
+            float h = Distance(0, 0, width / 2, (float)(a / (Math.Tan(2 * Math.PI / 12))));
+
+            if (particle.Y < 0) particle.Y = 0;
+
+            float k1 = h / a;
+            float k2 = particle.Y / particle.X;
+            if(particle.X * k1 < particle.X * k2)
+            {
+                particle.Y = k1 * particle.X;
             }
         }
 
@@ -118,6 +135,8 @@ namespace SnowflakeGenerator
                     break;
                 }
             }
+
+            Stay_here_Particle();
 
             return finished || intersects;
         }
