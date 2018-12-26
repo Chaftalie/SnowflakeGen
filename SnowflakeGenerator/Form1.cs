@@ -152,7 +152,7 @@ namespace SnowflakeGenerator
             while (!Particle_Finished())
             {
                 particle.X--;
-                particle.Y += rnd.Next(spread * -1000, (spread * 1000) + 1) / 1000;
+                particle.Y += rnd.Next(spread * -1000000, (spread * 1000000) + 1) / 1000000;
             }
         }
 
