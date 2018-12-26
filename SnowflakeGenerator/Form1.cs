@@ -14,6 +14,7 @@ namespace SnowflakeGenerator
     public partial class Form1 : Form
     {
         static Snowflake snowflake;
+        Thread childThread;
         public Form1()
         {
             InitializeComponent();
@@ -22,12 +23,10 @@ namespace SnowflakeGenerator
             snowflake = new Snowflake(pBx_main.Width, 1);
 
             ThreadStart childref = new ThreadStart(Thread_01);
-            Console.WriteLine("In Main: Creating the Child thread");
-
-            Thread childThread = new Thread(childref);
+            childThread = new Thread(childref);
             childThread.Start();
 
-            
+
         }
 
         public static void Thread_01()
@@ -37,6 +36,7 @@ namespace SnowflakeGenerator
 
         private void pBx_main_Paint(object sender, PaintEventArgs e)
         {
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             e.Graphics.TranslateTransform(pBx_main.Width / 2, pBx_main.Height / 2);
             e.Graphics.ScaleTransform(2, 2);
             lock (snowflake.particles)
@@ -44,19 +44,72 @@ namespace SnowflakeGenerator
                 foreach (var particle in snowflake.particles)
                 {
                     e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                    e.Graphics.RotateTransform(60);
+                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                    e.Graphics.RotateTransform(60);
+                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                    e.Graphics.RotateTransform(60);
+                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                    e.Graphics.RotateTransform(60);
+                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                    e.Graphics.RotateTransform(60);
+                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                    e.Graphics.RotateTransform(60);
                 }
             }
+
+            e.Graphics.ScaleTransform(1, -1);
+            lock (snowflake.particles)
+            {
+                foreach (var particle in snowflake.particles)
+                {
+                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                    e.Graphics.RotateTransform(60);
+                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                    e.Graphics.RotateTransform(60);
+                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                    e.Graphics.RotateTransform(60);
+                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                    e.Graphics.RotateTransform(60);
+                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                    e.Graphics.RotateTransform(60);
+                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                    e.Graphics.RotateTransform(60);
+                }
+            }
+
+            e.Graphics.ResetTransform();
 
         }
 
         private void Btn_Generate_Click(object sender, EventArgs e)
         {
-
+            childThread.Abort();
+            snowflake = new Snowflake(pBx_main.Width, 1);
+            Snowflake.seed = tBx_seed.Text.GetHashCode();
+            ThreadStart childref = new ThreadStart(Thread_01);
+            childThread = new Thread(childref);
+            childThread.Start();
         }
 
         private void tmr_16ms_Tick(object sender, EventArgs e)
         {
             pBx_main.Invalidate();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            childThread.Abort();
+        }
+
+        private void btn_new_Seed_Click(object sender, EventArgs e)
+        {
+            tBx_seed.Text = Guid.NewGuid().ToString();
+        }
+
+        private void btn_stop_Click(object sender, EventArgs e)
+        {
+            childThread.Abort();
         }
     }
 
@@ -66,9 +119,9 @@ namespace SnowflakeGenerator
         private float radius;
         public List<Particle> particles;
         Particle particle;
-        int seed;
+        public static int seed = 0;
         Random rnd;
-        int spread = 2;
+        int spread = 4;
 
         public Snowflake(float width, float radius)
         {
@@ -77,7 +130,7 @@ namespace SnowflakeGenerator
             this.width = width;
             particles = new List<Particle>();
             particle = new Particle(width / 2, 0, radius);
-            seed = Guid.NewGuid().GetHashCode();
+            //seed = Guid.NewGuid().GetHashCode();
             rnd = new Random(seed);
         }
 
@@ -113,7 +166,7 @@ namespace SnowflakeGenerator
 
             float k1 = h / a;
             float k2 = particle.Y / particle.X;
-            if(particle.X * k1 < particle.X * k2)
+            if (particle.X * k1 < particle.X * k2)
             {
                 particle.Y = k1 * particle.X;
             }
@@ -173,7 +226,7 @@ namespace SnowflakeGenerator
         {
             get
             {
-                return new RectangleF(X, Y, R * 2, R * 2);
+                return new RectangleF(X, Y, R * (float)1.05, R * (float)1.05);
             }
         }
     }

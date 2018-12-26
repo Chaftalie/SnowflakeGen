@@ -31,9 +31,11 @@
             this.components = new System.ComponentModel.Container();
             this.pBx_main = new System.Windows.Forms.PictureBox();
             this.lbl_01 = new System.Windows.Forms.Label();
-            this.tBx = new System.Windows.Forms.TextBox();
+            this.tBx_seed = new System.Windows.Forms.TextBox();
             this.Btn_Generate = new System.Windows.Forms.Button();
             this.tmr_16ms = new System.Windows.Forms.Timer(this.components);
+            this.btn_new_Seed = new System.Windows.Forms.Button();
+            this.btn_stop = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pBx_main)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,20 +57,20 @@
             this.lbl_01.AutoSize = true;
             this.lbl_01.Location = new System.Drawing.Point(12, 9);
             this.lbl_01.Name = "lbl_01";
-            this.lbl_01.Size = new System.Drawing.Size(35, 13);
+            this.lbl_01.Size = new System.Drawing.Size(32, 13);
             this.lbl_01.TabIndex = 1;
-            this.lbl_01.Text = "label1";
+            this.lbl_01.Text = "Seed";
             // 
-            // tBx
+            // tBx_seed
             // 
-            this.tBx.Location = new System.Drawing.Point(53, 6);
-            this.tBx.Name = "tBx";
-            this.tBx.Size = new System.Drawing.Size(100, 20);
-            this.tBx.TabIndex = 2;
+            this.tBx_seed.Location = new System.Drawing.Point(53, 6);
+            this.tBx_seed.Name = "tBx_seed";
+            this.tBx_seed.Size = new System.Drawing.Size(100, 20);
+            this.tBx_seed.TabIndex = 2;
             // 
             // Btn_Generate
             // 
-            this.Btn_Generate.Location = new System.Drawing.Point(53, 32);
+            this.Btn_Generate.Location = new System.Drawing.Point(53, 61);
             this.Btn_Generate.Name = "Btn_Generate";
             this.Btn_Generate.Size = new System.Drawing.Size(100, 23);
             this.Btn_Generate.TabIndex = 3;
@@ -79,20 +81,42 @@
             // tmr_16ms
             // 
             this.tmr_16ms.Enabled = true;
-            this.tmr_16ms.Interval = 16;
             this.tmr_16ms.Tick += new System.EventHandler(this.tmr_16ms_Tick);
+            // 
+            // btn_new_Seed
+            // 
+            this.btn_new_Seed.Location = new System.Drawing.Point(53, 32);
+            this.btn_new_Seed.Name = "btn_new_Seed";
+            this.btn_new_Seed.Size = new System.Drawing.Size(100, 23);
+            this.btn_new_Seed.TabIndex = 4;
+            this.btn_new_Seed.Text = "Random Seed";
+            this.btn_new_Seed.UseVisualStyleBackColor = true;
+            this.btn_new_Seed.Click += new System.EventHandler(this.btn_new_Seed_Click);
+            // 
+            // btn_stop
+            // 
+            this.btn_stop.Location = new System.Drawing.Point(53, 90);
+            this.btn_stop.Name = "btn_stop";
+            this.btn_stop.Size = new System.Drawing.Size(100, 23);
+            this.btn_stop.TabIndex = 5;
+            this.btn_stop.Text = "Stop";
+            this.btn_stop.UseVisualStyleBackColor = true;
+            this.btn_stop.Click += new System.EventHandler(this.btn_stop_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(838, 519);
+            this.Controls.Add(this.btn_stop);
+            this.Controls.Add(this.btn_new_Seed);
             this.Controls.Add(this.Btn_Generate);
-            this.Controls.Add(this.tBx);
+            this.Controls.Add(this.tBx_seed);
             this.Controls.Add(this.lbl_01);
             this.Controls.Add(this.pBx_main);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.pBx_main)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -103,9 +127,11 @@
 
         private System.Windows.Forms.PictureBox pBx_main;
         private System.Windows.Forms.Label lbl_01;
-        private System.Windows.Forms.TextBox tBx;
+        private System.Windows.Forms.TextBox tBx_seed;
         private System.Windows.Forms.Button Btn_Generate;
         private System.Windows.Forms.Timer tmr_16ms;
+        private System.Windows.Forms.Button btn_new_Seed;
+        private System.Windows.Forms.Button btn_stop;
     }
 }
 
