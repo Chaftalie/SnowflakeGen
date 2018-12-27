@@ -36,7 +36,7 @@ namespace SnowflakeGenerator
 
         private void pBx_main_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            //e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             e.Graphics.TranslateTransform(pBx_main.Width / 2, pBx_main.Height / 2);
             e.Graphics.ScaleTransform(2, 2);
             lock (snowflake.particles)
@@ -136,7 +136,7 @@ namespace SnowflakeGenerator
 
         public void Generate_Snowflake()
         {
-            for (int i = 0; i < 2000; i++)
+            for (int i = 0; i < 200000; i++)
             {
                 lock (particles)
                 {
@@ -152,7 +152,7 @@ namespace SnowflakeGenerator
             while (!Particle_Finished())
             {
                 particle.X--;
-                particle.Y += rnd.Next(spread * -1000000, (spread * 1000000) + 1) / 1000000;
+                particle.Y += rnd.Next(spread * -10000, (spread * 10000) + 1) / 10000;
             }
         }
 
