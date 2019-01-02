@@ -15,18 +15,15 @@ namespace SnowflakeGenerator
     {
         static Snowflake snowflake;
         Thread childThread;
+
+        List<Particle> particles = new List<Particle>();
+
         public Form1()
         {
             InitializeComponent();
             lbl_01.BackColor = pBx_main.BackColor;
 
-            snowflake = new Snowflake(pBx_main.Width, 1);
-
-            ThreadStart childref = new ThreadStart(Thread_01);
-            childThread = new Thread(childref);
-            childThread.Start();
-
-
+            Gen_new_Snowflake();
         }
 
         public static void Thread_01()
@@ -41,42 +38,44 @@ namespace SnowflakeGenerator
             e.Graphics.ScaleTransform(2, 2);
             lock (snowflake.particles)
             {
-                foreach (var particle in snowflake.particles)
-                {
-                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
-                    e.Graphics.RotateTransform(60);
-                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
-                    e.Graphics.RotateTransform(60);
-                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
-                    e.Graphics.RotateTransform(60);
-                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
-                    e.Graphics.RotateTransform(60);
-                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
-                    e.Graphics.RotateTransform(60);
-                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
-                    e.Graphics.RotateTransform(60);
-                }
+                particles = snowflake.particles.ToList();
             }
 
-            e.Graphics.ScaleTransform(1, -1);
-            lock (snowflake.particles)
+            foreach (var particle in particles)
             {
-                foreach (var particle in snowflake.particles)
-                {
-                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
-                    e.Graphics.RotateTransform(60);
-                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
-                    e.Graphics.RotateTransform(60);
-                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
-                    e.Graphics.RotateTransform(60);
-                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
-                    e.Graphics.RotateTransform(60);
-                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
-                    e.Graphics.RotateTransform(60);
-                    e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
-                    e.Graphics.RotateTransform(60);
-                }
+                e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                e.Graphics.RotateTransform(60);
+                e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                e.Graphics.RotateTransform(60);
+                e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                e.Graphics.RotateTransform(60);
+                e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                e.Graphics.RotateTransform(60);
+                e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                e.Graphics.RotateTransform(60);
+                e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                e.Graphics.RotateTransform(60);
             }
+
+
+            e.Graphics.ScaleTransform(1, -1);
+
+            foreach (var particle in particles)
+            {
+                e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                e.Graphics.RotateTransform(60);
+                e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                e.Graphics.RotateTransform(60);
+                e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                e.Graphics.RotateTransform(60);
+                e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                e.Graphics.RotateTransform(60);
+                e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                e.Graphics.RotateTransform(60);
+                e.Graphics.FillEllipse(Brushes.White, particle.Rectangle);
+                e.Graphics.RotateTransform(60);
+            }
+
 
             e.Graphics.ResetTransform();
 
@@ -84,8 +83,13 @@ namespace SnowflakeGenerator
 
         private void Btn_Generate_Click(object sender, EventArgs e)
         {
-            childThread.Abort();
-            snowflake = new Snowflake(pBx_main.Width, 1);
+            Gen_new_Snowflake();
+        }
+
+        private void Gen_new_Snowflake()
+        {
+            if (childThread != null) childThread.Abort();
+            snowflake = new Snowflake(pBx_main.Width, 1.1f);
             Snowflake.seed = tBx_seed.Text.GetHashCode();
             ThreadStart childref = new ThreadStart(Thread_01);
             childThread = new Thread(childref);

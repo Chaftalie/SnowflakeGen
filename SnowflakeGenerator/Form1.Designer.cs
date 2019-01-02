@@ -91,6 +91,7 @@
             // tmr_16ms
             // 
             this.tmr_16ms.Enabled = true;
+            this.tmr_16ms.Interval = 1000;
             this.tmr_16ms.Tick += new System.EventHandler(this.tmr_16ms_Tick);
             // 
             // btn_new_Seed
